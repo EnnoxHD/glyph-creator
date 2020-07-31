@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_14
+	targetCompatibility = JavaVersion.VERSION_14
+	modularity.inferModulePath = true
+}
+
+application {
+	mainModule = 'com.github.ennoxhd.glyphcreator'
+	mainClass  = 'com.github.ennoxhd.glyphcreator.app.GlyphCreatorApp'
+}
+
+javafx {
+    version = '14'
+    modules = [ 'javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics' ]
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+}
+
+task debug (type: Exec) {
+	group = 'application'
+	description = 'Runs this project as a JVM application with debugging enabled'
+	def baseCommand = ['run', '--debug-jvm']
+	doFirst {
+		if (System.properties['os.name'].toLowerCase().contains('windows')) {
+			commandLine = ['cmd', '/c', 'gradlew.bat'] + baseCommand
+		} else {
+			commandLine = ['sh', 'gradlew'] + baseCommand
+		}
+	}
+}
