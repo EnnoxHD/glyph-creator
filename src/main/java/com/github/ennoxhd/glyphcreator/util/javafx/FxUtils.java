@@ -40,6 +40,14 @@ class FxUtils {
 		Point2D target = Point2D.ZERO.interpolate(area, 0.5).add(origin);
 		setWindowOrigin(window, target);
 	}
+	
+	private static void originToOwnerCenter(Stage stage) {
+		Window owner = stage.getOwner();
+		Point2D ownerOrigin = new Point2D(owner.getX(), owner.getY());
+		Point2D ownerArea = new Point2D(owner.getWidth(), owner.getHeight());
+		Point2D target = ownerOrigin.add(Point2D.ZERO.interpolate(ownerArea, 0.5));
+		setWindowOrigin(stage, target);
+	}
 		
 	private static void onWindowSizeInit(ObservableDoubleValue size, DoubleConsumer handler) {
 		ChangeListener<? super Number> sizeListener = new ChangeListener<>() {
@@ -56,7 +64,11 @@ class FxUtils {
 	}
 	
 	static void centerAndShow(Stage stage) {
-		originToActiveScreenCenter(stage);
+		if(stage.getOwner() == null) {
+			originToActiveScreenCenter(stage);
+		} else {
+			originToOwnerCenter(stage);
+		}
 		onWindowSizeInit(stage.widthProperty(), width -> stage.setX(stage.getX() - width * 0.5));
 		onWindowSizeInit(stage.heightProperty(), height -> stage.setY(stage.getY() - height * 0.5));
 		stage.show();
