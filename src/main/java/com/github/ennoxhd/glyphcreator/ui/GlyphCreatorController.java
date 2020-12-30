@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import com.github.ennoxhd.glyphcreator.app.GlyphCreatorApp;
 import com.github.ennoxhd.glyphcreator.model.GlyphCreatorModel;
 import com.github.ennoxhd.glyphcreator.services.GlyphCreatorServices;
+import com.github.ennoxhd.glyphcreator.services.InkscapeVersionService;
 import com.github.ennoxhd.glyphcreator.util.io.FilePathUtils;
 import com.github.ennoxhd.glyphcreator.util.javafx.BaseController;
 import com.github.ennoxhd.glyphcreator.util.javafx.Dialogs;
@@ -87,7 +88,7 @@ public class GlyphCreatorController extends BaseController<GlyphCreatorModel> {
 		File selectedFile = fileChooser.showOpenDialog(WindowUtils.from(e));
 		if(selectedFile != null) {
 			getModel().inkscapePath.set(selectedFile.getPath());
-			GlyphCreatorServices.isCorrectInkscapeVersion(getModel(),
+			InkscapeVersionService.checkVersion(getModel(),
 					GlyphCreatorController::showDialogForIncompatibleVersion);
 		}
 	}
@@ -104,7 +105,7 @@ public class GlyphCreatorController extends BaseController<GlyphCreatorModel> {
 	
 	@FXML
 	private void btn_convert_onAction(ActionEvent e) {
-		GlyphCreatorServices.isCorrectInkscapeVersion(getModel(), isCompatible -> {
+		InkscapeVersionService.checkVersion(getModel(), isCompatible -> {
 			showDialogForIncompatibleVersion(isCompatible);
 			convert(isCompatible, e);
 		});
