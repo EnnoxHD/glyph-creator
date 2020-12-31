@@ -1,5 +1,5 @@
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/ennoxhd/glyph-creator?label=version&sort=semver)](https://github.com/ennoxhd/glyph-creator/tags)
-[![Requirements](https://img.shields.io/badge/requires-Inkscape%201.0%2B-blue)](https://inkscape.org/release/inkscape-1.0/)
+[![Requirements](https://img.shields.io/badge/requires-Inkscape%201.0%2B-blue)](https://inkscape.org/release/)
 [![Platform](https://img.shields.io/badge/platform-win%20%7C%20lin%20%7C%20mac-lightgrey)](https://en.wikipedia.org/wiki/OpenJDK)
 [![Code](https://img.shields.io/badge/code-Java%2015-orange)](https://jdk.java.net/15/)
 [![Build Tool](https://img.shields.io/badge/build%20tool-Gradle%206.7.1-yellow)](https://gradle.org/releases/)
@@ -35,7 +35,7 @@ Copyright (c) 2013-2017 Cole Bemis,
 
 ### Dependencies
 This program requires at a minimum:
-- the installation of [Inkscape version 1.0+](https://inkscape.org/release/inkscape-1.0/)
+- the installation of [Inkscape version 1.0+](https://inkscape.org/release/)
 - the installation of [Java 8 or higher to run Gradle](https://docs.gradle.org/current/userguide/installation.html#sec:prerequisites)
 
 ### Running
