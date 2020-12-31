@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import com.github.ennoxhd.glyphcreator.app.GlyphCreatorApp;
 import com.github.ennoxhd.glyphcreator.model.GlyphCreatorModel;
-import com.github.ennoxhd.glyphcreator.services.GlyphCreatorServices;
+import com.github.ennoxhd.glyphcreator.services.VectorImageConversionService;
 import com.github.ennoxhd.glyphcreator.services.InkscapeVersionService;
 import com.github.ennoxhd.glyphcreator.util.io.FilePathUtils;
 import com.github.ennoxhd.glyphcreator.util.javafx.BaseController;
@@ -56,7 +56,7 @@ public class GlyphCreatorController extends BaseController<GlyphCreatorModel> {
 		if(isCompatible) {
 			ProgressDialogController controller = GlyphCreatorApp.start(ProgressDialogController.class,
 					Modality.WINDOW_MODAL, WindowUtils.from(e));
-			GlyphCreatorServices.convertAll(getModel(), controller, result -> {
+			VectorImageConversionService.convertAll(getModel(), controller, result -> {
 				controller.getStage().hide();
 				if(result == null) {
 					Dialogs.errorDialog("Error", "Something went wrong",
