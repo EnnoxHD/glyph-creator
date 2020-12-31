@@ -9,7 +9,6 @@ import java.util.function.Consumer;
 
 import com.github.ennoxhd.glyphcreator.model.GlyphCreatorModel;
 import com.github.ennoxhd.glyphcreator.util.javafx.BasicService;
-import com.github.ennoxhd.glyphcreator.util.javafx.BasicTask;
 import com.github.ennoxhd.glyphcreator.util.regex.RegexUtils;
 
 public class InkscapeVersionService {
@@ -48,16 +47,14 @@ public class InkscapeVersionService {
 	
 	public static void checkVersion(GlyphCreatorModel model, Consumer<Boolean> onResult) {
 		String path = model.inkscapePath.get();
-		BasicService<Boolean> versionLookupService = new BasicService<>();
-		BasicTask<Boolean> versionLookupTask = versionLookupService.getTask();
-		versionLookupService.defineWork(() -> {
+		BasicService<Boolean> versionLookup = new BasicService<>(task -> {
 			boolean isCorrect = analyzeVersion(getVersion(path));
-			versionLookupTask.updateProgress(1, 1);
-			versionLookupTask.updateValue(isCorrect);
+			task.updateProgress(1, 1);
+			task.updateValue(isCorrect);
 			return isCorrect;
 		});
-		versionLookupService.setOnSucceeded(e -> {
-			boolean serviceResult = versionLookupService.getValue();
+		versionLookup.setOnSucceeded(e -> {
+			boolean serviceResult = versionLookup.getValue();
 			model.inkscapePathCache.invalidate();
 			if(serviceResult) {
 				model.inkscapePathCache.setData(path);
@@ -66,11 +63,11 @@ public class InkscapeVersionService {
 			}
 			onResult.accept(serviceResult);
 		});
-		versionLookupService.setOnFailed(e -> {
+		versionLookup.setOnFailed(e -> {
 			model.inkscapePathCache.invalidate();
 			model.inkscapePathCache.setData(null);
 			onResult.accept(false);
 		});
-		versionLookupService.start();
+		versionLookup.start();
 	}
 }
