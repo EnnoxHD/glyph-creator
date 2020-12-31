@@ -56,14 +56,14 @@ public class VectorImageConversionService {
 						Path failedFile = convertVectorImage(inkscape, file);
 						if(failedFile == null) result.remove(file);
 						Platform.runLater(() -> {
-							task.updateProgress(Math.floor(task.getProgress() * amount) + 1L, amount);
+							task.updateProgress(Math.round(task.getProgress() * amount) + 1L, amount);
 							controller.setProgress(task.getProgress());
 						});
 					});
 				}
-				task.updateProgress(amount, amount);
 				executor.shutdown();
 				executor.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+				task.updateProgress(amount, amount);
 				task.updateValue(result);
 				return result;
 			} catch(Exception e) {
