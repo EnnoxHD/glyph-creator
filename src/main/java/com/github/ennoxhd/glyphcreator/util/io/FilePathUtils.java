@@ -21,12 +21,13 @@ public class FilePathUtils {
 		return null;
 	}
 	
-	public static List<Path> getSvgFilesInDirectoryDeep(String directory) {
-		if(directory == null) return List.of();
+	public static List<Path> getFilesInDirectoryDeep(String directory, String extension) {
+		if(directory == null || directory.isBlank()) return List.of();
+		String ending = "." + extension == null ? "" : extension;
 		try {
 			return Files.walk(Paths.get(directory))
 					.filter(file -> Files.isRegularFile(file))
-					.filter(file -> file.toString().endsWith(".svg"))
+					.filter(file -> file.toString().endsWith(ending))
 					.collect(Collectors.toList());
 		} catch (IOException e) {
 			return List.of();

@@ -18,7 +18,19 @@ public class ProgressDialogController extends BaseController<ProgressDialogModel
 	@FXML
 	private Button btn_cancel;
 	
-	public boolean stopped = false;
+	private Boolean stopped = false;
+	
+	public boolean isStopped() {
+		synchronized (stopped) {
+			return stopped;
+		}
+	}
+	
+	private void setStopped(boolean stopped) {
+		synchronized (this.stopped) {
+			this.stopped = stopped;
+		}
+	}
 	
 	@Override
 	protected void bind(ProgressDialogModel model) {
@@ -38,7 +50,7 @@ public class ProgressDialogController extends BaseController<ProgressDialogModel
 	
 	@FXML
 	private void btn_cancel_onAction(ActionEvent e) {
-		if(!stopped) stopped = true;
+		if(!isStopped()) setStopped(true);
 		btn_cancel.setDisable(true);
 	}
 	
