@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import com.github.ennoxhd.glyphcreator.model.GlyphCreatorModel;
-import com.github.ennoxhd.glyphcreator.util.javafx.BasicTask;
 import com.github.ennoxhd.glyphcreator.util.javafx.BasicService;
+import com.github.ennoxhd.glyphcreator.util.javafx.BasicTask;
 import com.github.ennoxhd.glyphcreator.util.regex.RegexUtils;
 
 public class InkscapeVersionService {

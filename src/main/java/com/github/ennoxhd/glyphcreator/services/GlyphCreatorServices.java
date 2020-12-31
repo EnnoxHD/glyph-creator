@@ -14,6 +14,7 @@ import com.github.ennoxhd.glyphcreator.ui.ProgressDialogController;
 import com.github.ennoxhd.glyphcreator.util.io.FilePathUtils;
 import com.github.ennoxhd.glyphcreator.util.io.SystemUtils;
 
+import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
@@ -45,8 +46,7 @@ public class GlyphCreatorServices {
 					@Override
 					protected List<Path> call() throws Exception {
 						try {
-							final int threads = SystemUtils.getNumberOfCpuThreads() * 2;
-							ExecutorService executor = Executors.newFixedThreadPool(threads);
+							ExecutorService executor = Executors.newFixedThreadPool(SystemUtils.getNumberOfCpuThreads());
 							final List<Path> files = FilePathUtils.getSvgFilesInDirectoryDeep(dir);
 							long max = files.size();
 							updateProgress(0L, max);
@@ -56,8 +56,10 @@ public class GlyphCreatorServices {
 									if(!controller.stopped) {
 										Path failedFile = convertVectorImageBase(inkscape, file);
 										if(failedFile == null) result.remove(file);
-										updateProgress(Math.round(getProgress() * max) + 1L, max);
-										controller.setProgress(getProgress());
+										Platform.runLater(() -> {
+											updateProgress(Math.round(getProgress() * max) + 1L, max);
+											controller.setProgress(getProgress());
+										});
 									}
 								});
 							}
