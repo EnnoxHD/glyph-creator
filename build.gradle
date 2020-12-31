@@ -25,12 +25,12 @@ dependencies {
     def version = '15.0.1'
     def fxModules = List.of('javafx-base','javafx-controls','javafx-fxml','javafx-graphics')
     
-    def osName = System.getProperty("os.name")
+    def osName = System.getProperty('os.name').toLowerCase()
     def platform = 'mac'
-    if (osName.toLowerCase().contains('windows')) {
+    if (osName.contains('windows')) {
     	platform = 'win'
     }
-    if (osName.toLowerCase().contains('linux')) {
+    if (osName.contains('linux')) {
     	platform = 'linux'
     }
     fxModules.forEach {
