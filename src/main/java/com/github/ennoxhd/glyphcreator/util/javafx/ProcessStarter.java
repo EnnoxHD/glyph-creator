@@ -67,7 +67,7 @@ public class ProcessStarter {
 		}
 		if(modality != null) stage.initModality(modality);
 		if(owner != null) stage.initOwner(owner);
-		FxUtils.centerAndShow(stage);
+		WindowUtils.centerAndShow(stage);
 		return controllerInstance;
 	}
 }
