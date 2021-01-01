@@ -17,11 +17,23 @@ import com.github.ennoxhd.glyphcreator.util.javafx.BasicService;
 
 import javafx.application.Platform;
 
+/**
+ * Service that converts all found SVG images
+ */
 public class VectorImageConversionService {
 
+	/**
+	 * Inkscape actions to perform on conversion
+	 */
 	private static final String ACTIONS =
 			"select-all;verb:StrokeToPath;verb:SelectionCombine;verb:FileSave;file-close";
 	
+	/**
+	 * Converts a SVG image with Inkscape.
+	 * @param inkscape path to the executable
+	 * @param file file to convert
+	 * @return {@code null}, otherwise {@code file} if conversion failed
+	 */
 	private static Path convertVectorImage(String inkscape, Path file) {
 		final ProcessBuilder processBuilder = new ProcessBuilder(inkscape,
 				"--batch-process", "--actions=\"" + ACTIONS + "\"", file.toString());
@@ -35,10 +47,22 @@ public class VectorImageConversionService {
 		return null;
 	}
 	
+	/**
+	 * Searches for SVG files in the given base directory
+	 * and recursively in all subdirectories.
+	 * @param directory base directory to search in
+	 * @return list of file paths
+	 */
 	private static List<Path> getSvgFiles(String directory) {
 		return FilePathUtils.getFilesInDirectoryDeep(directory, "svg");
 	}
 	
+	/**
+	 * Converts all SVG images in the given directory and its subdirectories.
+	 * @param model model with the Inkscape path and base directory
+	 * @param controller progress managing controller
+	 * @param onResult action to perform on success or failure
+	 */
 	public static void convertAll(GlyphCreatorModel model, ProgressDialogController controller,
 			Consumer<List<Path>> onResult) {
 		final String inkscape = model.inkscapePathCache.getData();
