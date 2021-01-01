@@ -9,8 +9,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * Contains some utility functions related to regular expressions.
+ */
 public class RegexUtils {
 
+	/**
+	 * Searches for a regex pattern in a provided value.
+	 * While searching it stores a list for each occurrence
+	 * where the named regex groups and their corresponding values are mapped.
+	 * @param pattern regex pattern to search for
+	 * @param value the value to search in
+	 * @return a list of all occurrences with a mapping of the named regex groups and their value
+	 */
 	public static List<Map<String, String>> getOccurrences(String pattern, String value) {
 		final String groupNameToken = "groupname";
 		final String groupNamePattern = "\\(\\?<(?<" + groupNameToken + ">\\w+)>";
