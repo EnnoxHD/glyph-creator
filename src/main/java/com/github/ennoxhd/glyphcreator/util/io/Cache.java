@@ -22,7 +22,7 @@ public interface Cache<T> {
 	 * Gets the data that is stored in the valid cache.
 	 * @return cached data
 	 * @throws IllegalStateException if not valid
-	 * @see {@link #isValid()}
+	 * @see #isValid()
 	 */
 	public T getData() throws IllegalStateException;
 	
@@ -30,7 +30,7 @@ public interface Cache<T> {
 	 * Sets the data to store in the cache if it is invalid.
 	 * @param data data to be stored
 	 * @throws IllegalStateException if not invalid
-	 * @see {@link #invalidate()}
+	 * @see #invalidate()
 	 */
 	public void setData(T data) throws IllegalStateException;
 }
