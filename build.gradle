@@ -1,16 +1,15 @@
 plugins {
-   id 'java'
-   id 'application'
-//   id 'org.openjfx.javafxplugin' version '0.0.9'
+	id 'java'
+	id 'application'
 }
 
 java {
-   modularity.inferModulePath = true
-   toolchain {
-      languageVersion = JavaLanguageVersion.of(15)
-   }
-   withJavadocJar()
-   withSourcesJar()
+	modularity.inferModulePath = true
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(15)
+	}
+	withJavadocJar()
+	withSourcesJar()
 }
 
 javadoc {
@@ -21,47 +20,42 @@ javadoc {
 
 application {
 	mainModule = 'com.github.ennoxhd.glyphcreator'
-	mainClass  = 'com.github.ennoxhd.glyphcreator.app.GlyphCreatorApp'
+	mainClass = 'com.github.ennoxhd.glyphcreator.app.GlyphCreatorApp'
 }
 
 repositories {
-   mavenCentral()
+	mavenCentral()
 }
 
 dependencies {
-    def group = 'org.openjfx'
-    def version = '15.0.1'
-    def fxModules = List.of('javafx-base','javafx-controls','javafx-fxml','javafx-graphics')
-    
-    def osName = System.getProperty('os.name').toLowerCase()
-    def platform = 'mac'
-    if (osName.contains('windows')) {
-    	platform = 'win'
-    }
-    if (osName.contains('linux')) {
-    	platform = 'linux'
-    }
-    fxModules.forEach {
-        implementation("$group:$it:$version:$platform")
-    }
+	def group = 'org.openjfx'
+	def version = '15.0.1'
+	def fxModules = List.of('javafx-base','javafx-controls','javafx-fxml','javafx-graphics')
+	
+	def osName = System.getProperty('os.name').toLowerCase()
+	def platform = 'mac'
+	if (osName.contains('windows')) {
+		platform = 'win'
+	}
+	if (osName.contains('linux')) {
+		platform = 'linux'
+	}
+	fxModules.forEach {
+		implementation("$group:$it:$version:$platform")
+	}
 }
 
-//javafx {
-//    version = '15.0.1'
-//    modules = [ 'javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics' ]
-//}
-
 task debug (type: Exec) {
-   group = 'application'
-   description = 'Runs this project as a JVM application with debugging enabled (add program arguments with -Pargs="...")'
-
-   def baseCommand = 'run --debug-jvm'
-   if(project.hasProperty('args')) {
-      baseCommand += ' --args="' + project.getProperty('args') + '"'
-   }
-   if (System.properties['os.name'].toLowerCase().contains('windows')) {
-      commandLine = ['cmd', '/c', 'gradlew.bat ' + baseCommand]
-   } else {
-      commandLine = ['sh', 'gradlew ' + baseCommand]
-   }
+	group = 'application'
+	description = 'Runs this project as a JVM application with debugging enabled (add program arguments with -Pargs="...")'
+	
+	def baseCommand = 'run --debug-jvm'
+	if(project.hasProperty('args')) {
+		baseCommand += ' --args="' + project.getProperty('args') + '"'
+	}
+	if (System.properties['os.name'].toLowerCase().contains('windows')) {
+		commandLine = ['cmd', '/c', 'gradlew.bat ' + baseCommand]
+	} else {
+		commandLine = ['sh', 'gradlew ' + baseCommand]
+	}
 }
