@@ -9,6 +9,8 @@ java {
    toolchain {
       languageVersion = JavaLanguageVersion.of(15)
    }
+   withJavadocJar()
+   withSourcesJar()
 }
 
 application {
