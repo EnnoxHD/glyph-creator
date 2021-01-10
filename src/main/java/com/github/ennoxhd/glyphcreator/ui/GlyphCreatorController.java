@@ -5,10 +5,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.github.ennoxhd.glyphcreator.app.GlyphCreatorApp;
 import com.github.ennoxhd.glyphcreator.model.GlyphCreatorModel;
-import com.github.ennoxhd.glyphcreator.services.VectorImageConversionService;
 import com.github.ennoxhd.glyphcreator.services.InkscapeVersionService;
+import com.github.ennoxhd.glyphcreator.services.VectorImageConversionService;
 import com.github.ennoxhd.glyphcreator.util.io.FilePathUtils;
 import com.github.ennoxhd.glyphcreator.util.javafx.BaseController;
 import com.github.ennoxhd.glyphcreator.util.javafx.Dialogs;
@@ -78,11 +77,11 @@ public class GlyphCreatorController extends BaseController<GlyphCreatorModel> {
 	 * @param isCompatible Inkscape version compatibility flag
 	 * @see InkscapeVersionService#checkVersion(GlyphCreatorModel, java.util.function.Consumer)
 	 */
-	private static void showDialogForIncompatibleVersion(boolean isCompatible) {
+	private void showDialogForIncompatibleVersion(boolean isCompatible) {
 		if(isCompatible) return;
 		Dialogs.warnDialog("Warning: incorrect version", "Inkscape version might not be compatible!",
 				"Inkscape version 1.0 is required as a minimum. Please consider updating the software.",
-				GlyphCreatorApp.getIcon());
+				getApp().getIcon());
 	}
 	
 	/**
@@ -92,21 +91,21 @@ public class GlyphCreatorController extends BaseController<GlyphCreatorModel> {
 	 */
 	private void convert(boolean isCompatible, ActionEvent e) {
 		if(!isCompatible) return;
-		ProgressDialogController controller = GlyphCreatorApp.start(ProgressDialogController.class,
+		ProgressDialogController controller = getApp().start(ProgressDialogController.class,
 				Modality.WINDOW_MODAL, WindowUtils.from(e));
 		VectorImageConversionService.convertAll(getModel(), controller, result -> {
 			controller.getStage().hide();
 			if(result == null) {
 				Dialogs.errorDialog("Error", "Something went wrong",
-						"The conversion process failed.", GlyphCreatorApp.getIcon(), getStage());
+						"The conversion process failed.", getApp().getIcon(), getStage());
 			} else if(result.isEmpty()) {
 				Dialogs.infoDialog("Done", "Conversion completed",
-						"All SVG images were successfully converted.", GlyphCreatorApp.getIcon(), getStage());
+						"All SVG images were successfully converted.", getApp().getIcon(), getStage());
 			} else {
 				List<String> areaContent = result.stream().map(Path::toString).collect(Collectors.toList());
 				Dialogs.warnDialog("Canceled", "Conversion canceled",
 						"The conversion was canceled. Therefore the following SVG images weren't converted:",
-						areaContent, GlyphCreatorApp.getIcon(), getStage());
+						areaContent, getApp().getIcon(), getStage());
 			}
 		});
 	}
@@ -130,7 +129,7 @@ public class GlyphCreatorController extends BaseController<GlyphCreatorModel> {
 		if(selectedFile == null) return;
 		getModel().inkscapePath.set(selectedFile.getPath());
 		InkscapeVersionService.checkVersion(getModel(),
-				GlyphCreatorController::showDialogForIncompatibleVersion);
+				this::showDialogForIncompatibleVersion);
 	}
 	
 	/**

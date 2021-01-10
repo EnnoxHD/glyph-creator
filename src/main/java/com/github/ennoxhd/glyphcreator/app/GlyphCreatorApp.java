@@ -12,11 +12,16 @@ import javafx.stage.Stage;
 public class GlyphCreatorApp extends BaseApplication {
 	
 	/**
+	 * The icon resource for the application to use.
+	 */
+	private static final String APP_ICON = "appicon_32x32.png";
+	
+	/**
 	 * Instantiates the {@link BaseApplication} with general parameters
 	 * for the main application class and application icon.
 	 */
 	public GlyphCreatorApp() {
-		super(GlyphCreatorApp.class, "appicon_32x32.png");
+		super(GlyphCreatorApp.class, APP_ICON);
 	}
 
 	/**

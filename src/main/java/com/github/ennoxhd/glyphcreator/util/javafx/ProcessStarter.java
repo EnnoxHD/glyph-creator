@@ -12,6 +12,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+/**
+ * The file name of the {@code *Controller.fxml} file and
+ * the class name of the controller must match as well as the resource path.
+ */
 public class ProcessStarter {
 	
 	private Class<? extends BaseApplication> app;
