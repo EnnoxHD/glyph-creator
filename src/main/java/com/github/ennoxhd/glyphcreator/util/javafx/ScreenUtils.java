@@ -4,7 +4,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 
-class ScreenUtils {
+public class ScreenUtils {
 	
 	private static Screen getActiveScreen(Point2D mousePosition) {
 		return Screen.getScreensForRectangle(mousePosition.getX(), mousePosition.getY(), 0, 0).get(0);

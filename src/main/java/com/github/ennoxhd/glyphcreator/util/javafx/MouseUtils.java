@@ -8,7 +8,7 @@ import javafx.geometry.Point2D;
 /**
  * Contains some mouse input related utility functions.
  */
-class MouseUtils {
+public class MouseUtils {
 
 	/**
 	 * Gets the current position of the mouse cursor on the screen.
