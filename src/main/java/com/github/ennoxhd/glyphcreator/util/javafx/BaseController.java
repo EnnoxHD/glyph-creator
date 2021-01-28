@@ -6,7 +6,10 @@ import java.util.ResourceBundle;
 import com.github.ennoxhd.glyphcreator.util.reflection.ReflectionUtils;
 
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  * Controller class for a {@link Stage} as defined in a corresponding {@code *.fxml} file.
@@ -28,10 +31,7 @@ public abstract class BaseController<T extends BaseModel> implements Initializab
 	 */
 	private Stage stage;
 	
-	/**
-	 * Reference to the main application.
-	 */
-	private BaseApplication app;
+	private ProcessStarter processStarter;
 	
 	/**
 	 * Gets the data model associated with this controller.
@@ -65,20 +65,12 @@ public abstract class BaseController<T extends BaseModel> implements Initializab
 		this.stage = stage;
 	}
 	
-	/**
-	 * Gets the main application reference.
-	 * @return the main application
-	 */
-	public BaseApplication getApp() {
-		return app;
+	private ProcessStarter getProcessStarter() {
+		return this.processStarter;
 	}
 	
-	/**
-	 * Sets the main application for reference.
-	 * @param app the main application
-	 */
-	void setApp(BaseApplication app) {
-		this.app = app;
+	public void setProcessStarter(ProcessStarter processStarter) {
+		this.processStarter = processStarter;
 	}
 	
 	/**
@@ -88,6 +80,15 @@ public abstract class BaseController<T extends BaseModel> implements Initializab
 	protected BaseController() {
 		Class<T> genericTypeClass = ReflectionUtils.getGenericTypeClass(getClass());
 		setModel(ReflectionUtils.newInstance(genericTypeClass));
+	}
+	
+	public Image getIcon() {
+		return getProcessStarter().getIcon().orElse(null);
+	}
+	
+	public <S extends BaseModel, U extends BaseController<S>> U
+			start(Class<U> controller, Modality modality, Window owner) {
+		return getProcessStarter().start(controller, modality, owner);
 	}
 	
 	/**

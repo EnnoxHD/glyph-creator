@@ -81,7 +81,7 @@ public class GlyphCreatorController extends BaseController<GlyphCreatorModel> {
 		if(isCompatible) return;
 		Dialogs.warnDialog("Warning: incorrect version", "Inkscape version might not be compatible!",
 				"Inkscape version 1.0 is required as a minimum. Please consider updating the software.",
-				getApp().getIcon());
+				getIcon());
 	}
 	
 	/**
@@ -91,21 +91,21 @@ public class GlyphCreatorController extends BaseController<GlyphCreatorModel> {
 	 */
 	private void convert(boolean isCompatible, ActionEvent e) {
 		if(!isCompatible) return;
-		ProgressDialogController controller = getApp().start(ProgressDialogController.class,
+		ProgressDialogController controller = start(ProgressDialogController.class,
 				Modality.WINDOW_MODAL, WindowUtils.from(e));
 		VectorImageConversionService.convertAll(getModel(), controller, result -> {
 			controller.getStage().hide();
 			if(result == null) {
 				Dialogs.errorDialog("Error", "Something went wrong",
-						"The conversion process failed.", getApp().getIcon(), getStage());
+						"The conversion process failed.", getIcon(), getStage());
 			} else if(result.isEmpty()) {
 				Dialogs.infoDialog("Done", "Conversion completed",
-						"All SVG images were successfully converted.", getApp().getIcon(), getStage());
+						"All SVG images were successfully converted.", getIcon(), getStage());
 			} else {
 				List<String> areaContent = result.stream().map(Path::toString).collect(Collectors.toList());
 				Dialogs.warnDialog("Canceled", "Conversion canceled",
 						"The conversion was canceled. Therefore the following SVG images weren't converted:",
-						areaContent, getApp().getIcon(), getStage());
+						areaContent, getIcon(), getStage());
 			}
 		});
 	}

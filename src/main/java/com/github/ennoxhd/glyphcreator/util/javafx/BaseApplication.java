@@ -1,37 +1,37 @@
 package com.github.ennoxhd.glyphcreator.util.javafx;
 
-import javafx.application.Application;
-import javafx.scene.image.Image;
-import javafx.stage.Modality;
-import javafx.stage.Window;
+import com.github.ennoxhd.glyphcreator.model.GlyphCreatorModel;
 
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+/**
+ * Base class for an application with some additional methods
+ * to support application process creation.
+ */
 public abstract class BaseApplication extends Application {
 	
-	private ProcessStarter starter;
-	private Class<? extends BaseApplication> appClass;
-	private Image icon;
+	private static ProcessStarter processStarter;
 	
-	public BaseApplication(Class<? extends BaseApplication> appClass) {
-		starter = new ProcessStarter();
-		this.appClass = appClass;
+	private static Class<? extends BaseController<GlyphCreatorModel>> firstController;
+	
+	protected ProcessStarter getProcessStarter() {
+		return processStarter;
 	}
 	
-	public BaseApplication(Class<? extends BaseApplication> appClass, String icon) {
-		starter = new ProcessStarter(getClass(), icon);
-		this.appClass = appClass;
+	public BaseApplication() {
+		BaseApplication.processStarter = new ProcessStarter(this);
 	}
 	
-	public <S extends BaseModel, T extends BaseController<S>> T start(Class<T> controller) {
-		return starter.start(controller);
+	protected static void launch(Class<? extends Application> appClass, String[] args, String icon,
+			Class<? extends BaseController<GlyphCreatorModel>> firstController) {
+		BaseApplication.firstController = firstController;
+		BaseApplication.processStarter.setIcon(icon);
+		launch(appClass, args);
 	}
 	
-	public <S extends BaseModel, T extends BaseController<S>> T start(Class<T> controller, Modality modality, Window owner) {
-		return starter.start(controller, modality, owner);
-	}
-	
-	public Image getIcon() {
-		if(starter.getIconResource() == null) return null;
-		if(icon == null) icon = new Image(appClass.getResourceAsStream(starter.getIconResource()));
-		return icon;
+	@Override
+	public void start(Stage stage) throws Exception {
+		getProcessStarter().start(firstController);
 	}
 }

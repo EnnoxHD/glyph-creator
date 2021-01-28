@@ -1,9 +1,9 @@
 package com.github.ennoxhd.glyphcreator.util.javafx;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Objects;
+import java.util.Optional;
 
+import com.github.ennoxhd.glyphcreator.util.io.ResourceUtils;
 import com.github.ennoxhd.glyphcreator.util.reflection.ReflectionUtils;
 
 import javafx.fxml.FXMLLoader;
@@ -13,30 +13,41 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 /**
- * The file name of the {@code *Controller.fxml} file and
- * the class name of the controller must match as well as the resource path.
+ * Starts application processes by a given Controller class.
+ * The Controller gets instantiated and a Stage is loaded from a file resource.
+ * The file name of the {@code *.fxml} file and the class name
+ * of the controller ({@code *Controller.java}) must match as well as the resource path.
+ * E.g. {@code Test.fxml} and {@code TestController.java} do match as defined by the mechanism.
  */
 public class ProcessStarter {
 	
-	private Class<? extends BaseApplication> app;
+	private BaseApplication app;
 	
-	private String iconResource;
+	private Optional<Image> icon;
 	
-	private Class<? extends BaseApplication> getApp() {
-		return this.app;
+	private BaseApplication getApp() {
+		return app;
 	}
 	
-	String getIconResource() {
-		return this.iconResource;
-	}
-	
-	public ProcessStarter() {
-		this(null, null);
-	}
-	
-	public ProcessStarter(Class<? extends BaseApplication> app, String iconResource) {
+	private void setApp(BaseApplication app) {
 		this.app = app;
-		this.iconResource = iconResource;
+	}
+	
+	public Optional<Image> getIcon() {
+		return icon;
+	}
+	
+	private void setIcon(Optional<Image> icon) {
+		this.icon = icon;
+	}
+	
+	public void setIcon(String icon) {
+		setIcon(ResourceUtils.loadImage(getApp().getClass(), icon));
+	}
+	
+	public ProcessStarter(BaseApplication app) {
+		setApp(app);
+		setIcon(Optional.empty());
 	}
 	
 	private String getFxmlResourceUrl(Class<? extends BaseController<? extends BaseModel>> controller) {
@@ -52,8 +63,10 @@ public class ProcessStarter {
 		return start(controller, null, null);
 	}
 	
-	public <S extends BaseModel, T extends BaseController<S>> T start(Class<T> controller, Modality modality, Window owner) {
+	public <S extends BaseModel, T extends BaseController<S>> T
+			start(Class<T> controller, Modality modality, Window owner) {
 		T controllerInstance = ReflectionUtils.newInstance(controller);
+		controllerInstance.setProcessStarter(this);
 		FXMLLoader loader = new FXMLLoader(controller.getResource(getFxmlResourceUrl(controller)));
 		loader.setController(controllerInstance);
 		Stage stage = null;
@@ -63,12 +76,7 @@ public class ProcessStarter {
 			throw new Error("File could not be loaded.", e);
 		}
 		controllerInstance.setStage(stage);
-		if(getIconResource() != null) {
-			Objects.requireNonNull(getApp());
-			InputStream iconResourceStream = getApp().getResourceAsStream(getIconResource());
-			if(iconResourceStream != null) stage.getIcons().add(new Image(iconResourceStream));
-			else throw new Error("Resource not found for: '" + getIconResource() + "'.");
-		}
+		if(getIcon().isPresent()) stage.getIcons().add(getIcon().get());
 		if(modality != null) stage.initModality(modality);
 		if(owner != null) stage.initOwner(owner);
 		WindowUtils.centerAndShow(stage);
