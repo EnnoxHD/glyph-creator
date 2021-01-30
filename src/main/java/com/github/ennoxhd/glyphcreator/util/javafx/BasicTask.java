@@ -2,6 +2,11 @@ package com.github.ennoxhd.glyphcreator.util.javafx;
 
 import javafx.concurrent.Task;
 
+/**
+ * Wrapper class for a {@link Task} that exposes several methods for convenience
+ * and is generally used by a {@link BasicService}.
+ * @param <V> the result type of the task
+ */
 public abstract class BasicTask<V> extends Task<V> {
 	
 	@Override
