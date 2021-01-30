@@ -21,53 +21,93 @@ import javafx.stage.Window;
  */
 public class ProcessStarter {
 	
+	/**
+	 * Back reference to the main application class
+	 */
 	private BaseApplication app;
 	
+	/**
+	 * Optional application image
+	 */
 	private Optional<Image> icon;
 	
+	/**
+	 * Gets the main application class.
+	 * @return the main application class
+	 */
 	private BaseApplication getApp() {
 		return app;
 	}
 	
+	/**
+	 * Sets the main application class.
+	 * Generally set only once on instantiation.
+	 * @param app the main application class
+	 */
 	private void setApp(BaseApplication app) {
 		this.app = app;
 	}
 	
+	/**
+	 * Gets the optional application icon.
+	 * @return the icon
+	 */
 	public Optional<Image> getIcon() {
 		return icon;
 	}
 	
+	/**
+	 * Sets the optional main application icon.
+	 * @param icon the application icon
+	 */
 	private void setIcon(Optional<Image> icon) {
 		this.icon = icon;
 	}
 	
+	/**
+	 * Tries to load the given application icon resource.
+	 * Sets the optional icon.
+	 * @param icon the relative resource path from the application main class
+	 */
 	public void setIcon(String icon) {
 		setIcon(ResourceUtils.loadImage(getApp().getClass(), icon));
 	}
 	
+	/**
+	 * Instantiates a {@link ProcessStarter} and
+	 * sets the back reference to the main application class.
+	 * @param app the main application class
+	 */
 	public ProcessStarter(BaseApplication app) {
 		setApp(app);
 		setIcon(Optional.empty());
 	}
 	
-	private String getFxmlResourceUrl(Class<? extends BaseController<? extends BaseModel>> controller) {
-		final String className = controller.getSimpleName();
-		try {
-			return className.substring(0, className.indexOf("Controller")) + ".fxml";
-		} catch(IndexOutOfBoundsException e) {
-			throw new Error("No matching fxml file found.", e);
-		}
-	}
-	
+	/**
+	 * Starts a new application process.
+	 * @param <S> the {@link BaseModel}
+	 * @param <T> the {@link BaseController}
+	 * @param controller the controller class to start
+	 * @return the controller instance
+	 */
 	public <S extends BaseModel, T extends BaseController<S>> T start(Class<T> controller) {
 		return start(controller, null, null);
 	}
 	
+	/**
+	 * Starts a new application process.
+	 * @param <S> the {@link BaseModel}
+	 * @param <T> the {@link BaseController}
+	 * @param controller the Controller and therefore Stage to load
+	 * @param modality the modality of a potential dialog
+	 * @param owner the owner of a potential dialog
+	 * @return the instance of {@code controller}
+	 */
 	public <S extends BaseModel, T extends BaseController<S>> T
 			start(Class<T> controller, Modality modality, Window owner) {
 		T controllerInstance = ReflectionUtils.newInstance(controller);
 		controllerInstance.setProcessStarter(this);
-		FXMLLoader loader = new FXMLLoader(controller.getResource(getFxmlResourceUrl(controller)));
+		FXMLLoader loader = new FXMLLoader(ResourceUtils.getFxmlUrl(controller));
 		loader.setController(controllerInstance);
 		Stage stage = null;
 		try {

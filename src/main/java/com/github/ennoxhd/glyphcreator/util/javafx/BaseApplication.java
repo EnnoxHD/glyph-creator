@@ -11,27 +11,80 @@ import javafx.stage.Stage;
  */
 public abstract class BaseApplication extends Application {
 	
+	/**
+	 * General {@link ProcessStarter} for this application.
+	 */
 	private static ProcessStarter processStarter;
 	
+	/**
+	 * The first {@link BaseController} to load and show.
+	 */
 	private static Class<? extends BaseController<GlyphCreatorModel>> firstController;
 	
-	protected ProcessStarter getProcessStarter() {
+	/**
+	 * Gets the general {@link ProcessStarter} of this application.
+	 * @return the {@link ProcessStarter}
+	 */
+	protected static ProcessStarter getProcessStarter() {
 		return processStarter;
 	}
 	
-	public BaseApplication() {
-		BaseApplication.processStarter = new ProcessStarter(this);
+	/**
+	 * Sets a new {@link ProcessStarter} for this application.
+	 * In general only used once on the start of the application.
+	 * @param processStarter the new {@link ProcessStarter}
+	 */
+	private static void setProcessStarter(ProcessStarter processStarter) {
+		BaseApplication.processStarter = processStarter;
 	}
 	
+	/**
+	 * Gets the first {@link BaseController}.
+	 * @return the first {@link BaseController}
+	 */
+	private static Class<? extends BaseController<GlyphCreatorModel>> getFirstController() {
+		return BaseApplication.firstController;
+	}
+	
+	/**
+	 * Sets the first {@link BaseController} that will be loaded and shown.
+	 * @param firstController the first {@link BaseController}
+	 */
+	private static void setFirstController(Class<? extends BaseController<GlyphCreatorModel>> firstController) {
+		BaseApplication.firstController = firstController;
+	}
+	
+	/**
+	 * Instantiates the basic application class and
+	 * creates a new {@link ProcessStarter} for this application.
+	 */
+	public BaseApplication() {
+		setProcessStarter(new ProcessStarter(this));
+	}
+	
+	/**
+	 * Launches the {@code appClass} application with the defined arguments and loads the application icon.
+	 * It also loads and shows the first Stage of the application
+	 * which is defined by the parameter {@code firstController}.
+	 * @param appClass the application class to load
+	 * @param args the command line arguments to pass
+	 * @param icon the general application icon to use
+	 * @param firstController the first Stage to show
+	 */
 	protected static void launch(Class<? extends Application> appClass, String[] args, String icon,
 			Class<? extends BaseController<GlyphCreatorModel>> firstController) {
-		BaseApplication.firstController = firstController;
-		BaseApplication.processStarter.setIcon(icon);
+		getProcessStarter().setIcon(icon);
+		setFirstController(firstController);
 		launch(appClass, args);
 	}
 	
+	/**
+	 * Shows the first Stage defined by {@link BaseApplication#firstController}
+	 * after the application has started.
+	 * @param stage created main Stage, not used
+	 */
 	@Override
 	public void start(Stage stage) throws Exception {
-		getProcessStarter().start(firstController);
+		getProcessStarter().start(getFirstController());
 	}
 }

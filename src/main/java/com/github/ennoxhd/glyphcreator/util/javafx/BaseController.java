@@ -31,6 +31,9 @@ public abstract class BaseController<T extends BaseModel> implements Initializab
 	 */
 	private Stage stage;
 	
+	/**
+	 * Back reference to the {@link ProcessStarter} that created this {@link BaseController}.
+	 */
 	private ProcessStarter processStarter;
 	
 	/**
@@ -65,10 +68,18 @@ public abstract class BaseController<T extends BaseModel> implements Initializab
 		this.stage = stage;
 	}
 	
+	/**
+	 * Gets the back reference {@link ProcessStarter} that created this instance.
+	 * @return the reference
+	 */
 	private ProcessStarter getProcessStarter() {
 		return this.processStarter;
 	}
 	
+	/**
+	 * Sets the reference to the {@link ProcessStarter} that created this instance.
+	 * @param processStarter the {@link ProcessStarter}
+	 */
 	public void setProcessStarter(ProcessStarter processStarter) {
 		this.processStarter = processStarter;
 	}
@@ -82,10 +93,23 @@ public abstract class BaseController<T extends BaseModel> implements Initializab
 		setModel(ReflectionUtils.newInstance(genericTypeClass));
 	}
 	
+	/**
+	 * Gets the application icon or {@code null} if not specified.
+	 * @return the icon
+	 */
 	public Image getIcon() {
 		return getProcessStarter().getIcon().orElse(null);
 	}
 	
+	/**
+	 * Starts a new process via the {@link ProcessStarter} that started this one.
+	 * @param <S> the {@link BaseModel}
+	 * @param <U> the {@link BaseController}
+	 * @param controller the Controller and therefore Stage to load
+	 * @param modality the modality of a potential dialog
+	 * @param owner the owner of a potential dialog
+	 * @return the instance of {@code controller}
+	 */
 	public <S extends BaseModel, U extends BaseController<S>> U
 			start(Class<U> controller, Modality modality, Window owner) {
 		return getProcessStarter().start(controller, modality, owner);
