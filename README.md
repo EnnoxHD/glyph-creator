@@ -2,7 +2,7 @@
 [![Requirements](https://img.shields.io/badge/requires-Inkscape%201.0%2B-blue)](https://inkscape.org/release/)
 [![Platform](https://img.shields.io/badge/platform-win%20%7C%20lin%20%7C%20mac-lightgrey)](https://en.wikipedia.org/wiki/OpenJDK)
 [![Code](https://img.shields.io/badge/code-Java%2015-orange)](https://jdk.java.net/15/)
-[![Build Tool](https://img.shields.io/badge/build%20tool-Gradle%206.8.1-yellow)](https://gradle.org/releases/)
+[![Build Tool](https://img.shields.io/badge/build%20tool-Gradle%206.8.2-yellow)](https://gradle.org/releases/)
 [![GitHub](https://img.shields.io/github/license/ennoxhd/glyph-creator)](https://opensource.org/licenses/MIT)
 
 # ![](./doc/img/appicon_32x32.png) glyph-creator
