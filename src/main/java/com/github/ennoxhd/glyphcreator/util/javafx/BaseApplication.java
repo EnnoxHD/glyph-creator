@@ -22,6 +22,11 @@ public abstract class BaseApplication extends Application {
 	private static Class<? extends BaseController<GlyphCreatorModel>> firstController;
 	
 	/**
+	 * The application icon resource string.
+	 */
+	private static String icon;
+	
+	/**
 	 * Gets the general {@link ProcessStarter} of this application.
 	 * @return the {@link ProcessStarter}
 	 */
@@ -55,11 +60,28 @@ public abstract class BaseApplication extends Application {
 	}
 	
 	/**
+	 * Gets the application icon resource string.
+	 * @return the icon resource
+	 */
+	private static String getIcon() {
+		return icon;
+	}
+	
+	/**
+	 * Sets the application icon resource string for later use.
+	 * @param icon the application icon resource to use
+	 */
+	private static void setIcon(String icon) {
+		BaseApplication.icon = icon;
+	}
+	
+	/**
 	 * Instantiates the basic application class and
 	 * creates a new {@link ProcessStarter} for this application.
 	 */
 	public BaseApplication() {
 		setProcessStarter(new ProcessStarter(this));
+		getProcessStarter().setIcon(getIcon());
 	}
 	
 	/**
@@ -73,7 +95,7 @@ public abstract class BaseApplication extends Application {
 	 */
 	protected static void launch(Class<? extends Application> appClass, String[] args, String icon,
 			Class<? extends BaseController<GlyphCreatorModel>> firstController) {
-		getProcessStarter().setIcon(icon);
+		setIcon(icon);
 		setFirstController(firstController);
 		launch(appClass, args);
 	}
