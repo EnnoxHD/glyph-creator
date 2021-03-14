@@ -73,24 +73,35 @@ public class GlyphCreatorController extends BaseController<GlyphCreatorModel> {
 	}
 	
 	/**
-	 * Shows a dialog if the Inkscape version is not compatible.
-	 * @param isCompatible Inkscape version compatibility flag
-	 * @see InkscapeVersionService#checkVersion(GlyphCreatorModel, java.util.function.Consumer)
+	 * Show a dialog for empty executable path.
 	 */
-	private void showDialogForIncompatibleVersion(boolean isCompatible) {
-		if(isCompatible) return;
+	private void showDialogForEmptyExecutablePath() {
+		Dialogs.errorDialog("Error: Empty path", "Executable path is empty!",
+				"Please specify the path to the Inkscape executable.", getIcon(), getStage());
+	}
+	
+	/**
+	 * Show a dialog for empty working path.
+	 */
+	private void showDialogForEmptyWorkingPath() {
+		Dialogs.errorDialog("Error: Empty path", "Working directory path is empty!",
+				"Please specify the path for the working directory.", getIcon(), getStage());
+	}
+	
+	/**
+	 * Shows a dialog for an incompatible version of Inkscape.
+	 */
+	private void showDialogForIncompatibleVersion() {
 		Dialogs.warnDialog("Warning: incorrect version", "Inkscape version might not be compatible!",
 				"Inkscape version 1.0 is required as a minimum. Please consider updating the software.",
-				getIcon());
+				getIcon(), getStage());
 	}
 	
 	/**
 	 * If compatible, starts the conversion process and gives feedback about the completion.
-	 * @param isCompatible Inkscape version compatibility flag
 	 * @param e event
 	 */
-	private void convert(boolean isCompatible, ActionEvent e) {
-		if(!isCompatible) return;
+	private void convert(ActionEvent e) {
 		ProgressDialogController controller = start(ProgressDialogController.class,
 				Modality.WINDOW_MODAL, WindowUtils.from(e));
 		VectorImageConversionService.convertAll(getModel(), controller, result -> {
@@ -128,8 +139,9 @@ public class GlyphCreatorController extends BaseController<GlyphCreatorModel> {
 		File selectedFile = fileChooser.showOpenDialog(WindowUtils.from(e));
 		if(selectedFile == null) return;
 		getModel().inkscapePath.set(selectedFile.getPath());
-		InkscapeVersionService.checkVersion(getModel(),
-				this::showDialogForIncompatibleVersion);
+		InkscapeVersionService.checkVersion(getModel(), isCompatible -> {
+			if(!isCompatible) showDialogForIncompatibleVersion();
+		});
 	}
 	
 	/**
@@ -153,9 +165,22 @@ public class GlyphCreatorController extends BaseController<GlyphCreatorModel> {
 	 */
 	@FXML
 	private void btn_convert_onAction(ActionEvent e) {
+		if(getModel().inkscapePath.getValue().isBlank()
+				|| !new File(getModel().inkscapePath.getValue()).isFile()) {
+			showDialogForEmptyExecutablePath();
+			return;
+		}
+		if(getModel().svgFilesPath.getValue().isBlank()
+				|| !new File(getModel().svgFilesPath.getValue()).isDirectory()) {
+			showDialogForEmptyWorkingPath();
+			return;
+		}
 		InkscapeVersionService.checkVersion(getModel(), isCompatible -> {
-			showDialogForIncompatibleVersion(isCompatible);
-			convert(isCompatible, e);
+			if(isCompatible) {
+				convert(e);
+			} else {
+				showDialogForIncompatibleVersion();
+			}
 		});
 	}
 	
