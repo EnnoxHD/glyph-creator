@@ -18,7 +18,7 @@ public class Dialogs {
 	
 	/**
 	 * Generic method to display a variety of customized dialogs.
-	 * Every parameter is optional and may be given {@code null}.
+	 * Every parameter is optional and may be {@code null}.
 	 * @param type type of the dialog
 	 * @param title the title
 	 * @param header the short description
@@ -27,9 +27,9 @@ public class Dialogs {
 	 * @param icon the application icon to use on the dialog
 	 * @param owner the owner of the dialog (modality)
 	 */
-	private static void genericDialog(AlertType type, String title, String header, String content,
+	public static void genericDialog(AlertType type, String title, String header, String content,
 			List<String> areaContent, Image icon, Window owner) {
-		Alert dialog = new Alert(type);
+		Alert dialog = new Alert(type == null ? AlertType.INFORMATION : type);
 		dialog.setTitle(title);
 		dialog.setHeaderText(header);
 		dialog.setContentText(content);
