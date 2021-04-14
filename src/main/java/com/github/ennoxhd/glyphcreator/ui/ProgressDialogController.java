@@ -38,11 +38,16 @@ public class ProgressDialogController extends BaseController<ProgressDialogModel
 	private Boolean stopped = false;
 	
 	/**
+	 * Lock object for {@link #stopped}
+	 */
+	private final Object stoppedLock = new Object();
+	
+	/**
 	 * Is the conversion process stopped by the user?
 	 * @return {@code true} if the process is stopped, {@code false} otherwise
 	 */
 	public boolean isStopped() {
-		synchronized (stopped) {
+		synchronized (stoppedLock) {
 			return stopped;
 		}
 	}
@@ -53,7 +58,7 @@ public class ProgressDialogController extends BaseController<ProgressDialogModel
 	 * providing {@code false} has no effect
 	 */
 	private void setStopped(boolean stopped) {
-		synchronized (this.stopped) {
+		synchronized (stoppedLock) {
 			this.stopped = stopped;
 		}
 	}
