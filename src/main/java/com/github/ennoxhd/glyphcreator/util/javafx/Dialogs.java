@@ -28,7 +28,7 @@ public class Dialogs {
 	 * @param owner the owner of the dialog (modality)
 	 */
 	public static void genericDialog(AlertType type, String title, String header, String content,
-			List<String> areaContent, Image icon, Window owner) {
+			List<? extends String> areaContent, Image icon, Window owner) {
 		Alert dialog = new Alert(type == null ? AlertType.INFORMATION : type);
 		dialog.setTitle(title);
 		dialog.setHeaderText(header);
@@ -86,7 +86,8 @@ public class Dialogs {
 	 * @param icon the application icon to use on the dialog
 	 * @see Dialogs#genericDialog(AlertType, String, String, String, List, Image, Window)
 	 */
-	public static void errorDialog(String title, String header, String content, List<String> areaContent, Image icon) {
+	public static void errorDialog(String title, String header, String content,
+			List<? extends String> areaContent, Image icon) {
 		errorDialog(title, header, content, areaContent, icon, null);
 	}
 	
@@ -100,7 +101,8 @@ public class Dialogs {
 	 * @param owner the owner of the dialog (modality)
 	 * @see Dialogs#genericDialog(AlertType, String, String, String, List, Image, Window)
 	 */
-	public static void errorDialog(String title, String header, String content, List<String> areaContent, Image icon, Window owner) {
+	public static void errorDialog(String title, String header, String content,
+			List<? extends String> areaContent, Image icon, Window owner) {
 		genericDialog(AlertType.ERROR, title, header, content, areaContent, icon, owner);
 	}
 	
@@ -140,7 +142,8 @@ public class Dialogs {
 	 * @param icon the application icon to use on the dialog
 	 * @see Dialogs#genericDialog(AlertType, String, String, String, List, Image, Window)
 	 */
-	public static void infoDialog(String title, String header, String content, List<String> areaContent, Image icon) {
+	public static void infoDialog(String title, String header, String content,
+			List<? extends String> areaContent, Image icon) {
 		infoDialog(title, header, content, areaContent, icon, null);
 	}
 	
@@ -154,7 +157,8 @@ public class Dialogs {
 	 * @param owner the owner of the dialog (modality)
 	 * @see Dialogs#genericDialog(AlertType, String, String, String, List, Image, Window)
 	 */
-	public static void infoDialog(String title, String header, String content, List<String> areaContent, Image icon, Window owner) {
+	public static void infoDialog(String title, String header, String content,
+			List<? extends String> areaContent, Image icon, Window owner) {
 		genericDialog(AlertType.INFORMATION, title, header, content, areaContent, icon, owner);
 	}
 	
@@ -194,7 +198,8 @@ public class Dialogs {
 	 * @param icon the application icon to use on the dialog
 	 * @see Dialogs#genericDialog(AlertType, String, String, String, List, Image, Window)
 	 */
-	public static void warnDialog(String title, String header, String content, List<String> areaContent, Image icon) {
+	public static void warnDialog(String title, String header, String content,
+			List<? extends String> areaContent, Image icon) {
 		warnDialog(title, header, content, areaContent, icon, null);
 	}
 	
@@ -208,7 +213,8 @@ public class Dialogs {
 	 * @param owner the owner of the dialog (modality)
 	 * @see Dialogs#genericDialog(AlertType, String, String, String, List, Image, Window)
 	 */
-	public static void warnDialog(String title, String header, String content, List<String> areaContent, Image icon, Window owner) {
+	public static void warnDialog(String title, String header, String content,
+			List<? extends String> areaContent, Image icon, Window owner) {
 		genericDialog(AlertType.WARNING, title, header, content, areaContent, icon, owner);
 	}
 }

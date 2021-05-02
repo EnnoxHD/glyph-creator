@@ -85,27 +85,26 @@ public class ProcessStarter {
 	
 	/**
 	 * Starts a new application process.
-	 * @param <S> the {@link BaseModel}
 	 * @param <T> the {@link BaseController}
 	 * @param controller the controller class to start
 	 * @return the controller instance
 	 */
-	public <S extends BaseModel, T extends BaseController<S>> T start(Class<T> controller) {
+	public <T extends BaseController<? extends BaseModel>> T start(Class<T> controller) {
 		return start(controller, null, null);
 	}
 	
 	/**
 	 * Starts a new application process.
-	 * @param <S> the {@link BaseModel}
 	 * @param <T> the {@link BaseController}
 	 * @param controller the Controller and therefore Stage to load
 	 * @param modality the modality of a potential dialog
 	 * @param owner the owner of a potential dialog
 	 * @return the instance of {@code controller}
 	 */
-	public <S extends BaseModel, T extends BaseController<S>> T
+	public <T extends BaseController<? extends BaseModel>> T
 			start(Class<T> controller, Modality modality, Window owner) {
-		T controllerInstance = ReflectionUtils.newInstance(controller);
+		@SuppressWarnings("unchecked")
+		T controllerInstance = (T) ReflectionUtils.newInstance(controller);
 		controllerInstance.setProcessStarter(this);
 		FXMLLoader loader = new FXMLLoader(ResourceUtils.getFxmlUrl(controller));
 		loader.setController(controllerInstance);

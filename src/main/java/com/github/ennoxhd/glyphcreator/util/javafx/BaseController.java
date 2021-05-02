@@ -88,9 +88,10 @@ public abstract class BaseController<T extends BaseModel> implements Initializab
 	 * Instantiates the controller class and the corresponding model via
 	 * analysis of the generic type {@link T}.
 	 */
+	@SuppressWarnings("unchecked")
 	protected BaseController() {
-		Class<T> genericTypeClass = ReflectionUtils.getGenericTypeClass(getClass());
-		setModel(ReflectionUtils.newInstance(genericTypeClass));
+		Class<T> genericTypeClass = (Class<T>) ReflectionUtils.getGenericTypeClass(getClass());
+		setModel((T) ReflectionUtils.newInstance(genericTypeClass));
 	}
 	
 	/**
@@ -103,15 +104,14 @@ public abstract class BaseController<T extends BaseModel> implements Initializab
 	
 	/**
 	 * Starts a new process via the {@link ProcessStarter} that started this one.
-	 * @param <S> the {@link BaseModel}
-	 * @param <U> the {@link BaseController}
+	 * @param <S> the {@link BaseController}
 	 * @param controller the Controller and therefore Stage to load
 	 * @param modality the modality of a potential dialog
 	 * @param owner the owner of a potential dialog
 	 * @return the instance of {@code controller}
 	 */
-	public <S extends BaseModel, U extends BaseController<S>> U
-			start(Class<U> controller, Modality modality, Window owner) {
+	public <S extends BaseController<? extends BaseModel>> S
+			start(Class<S> controller, Modality modality, Window owner) {
 		return getProcessStarter().start(controller, modality, owner);
 	}
 	

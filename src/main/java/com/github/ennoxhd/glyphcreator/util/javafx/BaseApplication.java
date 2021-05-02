@@ -1,7 +1,5 @@
 package com.github.ennoxhd.glyphcreator.util.javafx;
 
-import com.github.ennoxhd.glyphcreator.model.GlyphCreatorModel;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -19,7 +17,7 @@ public abstract class BaseApplication extends Application {
 	/**
 	 * The first {@link BaseController} to load and show.
 	 */
-	private static Class<? extends BaseController<GlyphCreatorModel>> firstController;
+	private static Class<? extends BaseController<? extends BaseModel>> firstController;
 	
 	/**
 	 * The application icon resource string.
@@ -47,7 +45,7 @@ public abstract class BaseApplication extends Application {
 	 * Gets the first {@link BaseController}.
 	 * @return the first {@link BaseController}
 	 */
-	private static Class<? extends BaseController<GlyphCreatorModel>> getFirstController() {
+	private static Class<? extends BaseController<? extends BaseModel>> getFirstController() {
 		return BaseApplication.firstController;
 	}
 	
@@ -55,7 +53,7 @@ public abstract class BaseApplication extends Application {
 	 * Sets the first {@link BaseController} that will be loaded and shown.
 	 * @param firstController the first {@link BaseController}
 	 */
-	private static void setFirstController(Class<? extends BaseController<GlyphCreatorModel>> firstController) {
+	private static void setFirstController(Class<? extends BaseController<? extends BaseModel>> firstController) {
 		BaseApplication.firstController = firstController;
 	}
 	
@@ -94,7 +92,7 @@ public abstract class BaseApplication extends Application {
 	 * @param firstController the first Stage to show
 	 */
 	protected static void launch(Class<? extends Application> appClass, String[] args, String icon,
-			Class<? extends BaseController<GlyphCreatorModel>> firstController) {
+			Class<? extends BaseController<? extends BaseModel>> firstController) {
 		setIcon(icon);
 		setFirstController(firstController);
 		launch(appClass, args);
