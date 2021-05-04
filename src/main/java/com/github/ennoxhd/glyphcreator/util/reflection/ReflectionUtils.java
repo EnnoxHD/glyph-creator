@@ -22,8 +22,7 @@ public final class ReflectionUtils {
 		if(genericTypes == null || genericTypes.length < 1) return null;
 		Type genericType = genericTypes[0];
 		if(genericType == null) return null;
-		Class<?> result = genericType.getClass();
-		return result;
+		return (Class<?>) genericType;
 	}
 	
 	/**
