@@ -68,8 +68,8 @@ public class GlyphCreatorController extends BaseController<GlyphCreatorModel> {
 	 */
 	@Override
 	protected void bind(GlyphCreatorModel model) {
-		txt_inkscape.textProperty().bindBidirectional(model.inkscapePath);
-		txt_svgs.textProperty().bindBidirectional(model.svgFilesPath);
+		txt_inkscape.textProperty().bindBidirectional(model.inkscapePath());
+		txt_svgs.textProperty().bindBidirectional(model.svgFilesPath());
 	}
 	
 	/**
@@ -134,11 +134,11 @@ public class GlyphCreatorController extends BaseController<GlyphCreatorModel> {
 		fileChooser.getExtensionFilters().addAll(defaultExtensionFilter,
 				new ExtensionFilter("All files", "*"));
 		fileChooser.setSelectedExtensionFilter(defaultExtensionFilter);
-		File recentLocation = FilePathUtils.getRecentDirectory(getModel().inkscapePath.get());
+		File recentLocation = FilePathUtils.getRecentDirectory(getModel().inkscapePath().get());
 		fileChooser.setInitialDirectory(recentLocation);
 		File selectedFile = fileChooser.showOpenDialog(WindowUtils.from(e));
 		if(selectedFile == null) return;
-		getModel().inkscapePath.set(selectedFile.getPath());
+		getModel().inkscapePath().set(selectedFile.getPath());
 		InkscapeVersionService.checkVersion(getModel(), isCompatible -> {
 			if(!isCompatible) showDialogForIncompatibleVersion();
 		});
@@ -152,11 +152,11 @@ public class GlyphCreatorController extends BaseController<GlyphCreatorModel> {
 	private void btn_svgs_onAction(ActionEvent e) {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Folder: Path to SVGs");
-		File recentLocation = FilePathUtils.getRecentDirectory(getModel().svgFilesPath.get());
+		File recentLocation = FilePathUtils.getRecentDirectory(getModel().svgFilesPath().get());
 		directoryChooser.setInitialDirectory(recentLocation);
 		File selectedFolder = directoryChooser.showDialog(WindowUtils.from(e));
 		if(selectedFolder == null) return;
-		getModel().svgFilesPath.set(selectedFolder.getPath());
+		getModel().svgFilesPath().set(selectedFolder.getPath());
 	}
 	
 	/**
@@ -165,13 +165,13 @@ public class GlyphCreatorController extends BaseController<GlyphCreatorModel> {
 	 */
 	@FXML
 	private void btn_convert_onAction(ActionEvent e) {
-		if(getModel().inkscapePath.getValue().isBlank()
-				|| !new File(getModel().inkscapePath.getValue()).isFile()) {
+		if(getModel().inkscapePath().getValue().isBlank()
+				|| !new File(getModel().inkscapePath().getValue()).isFile()) {
 			showDialogForEmptyExecutablePath();
 			return;
 		}
-		if(getModel().svgFilesPath.getValue().isBlank()
-				|| !new File(getModel().svgFilesPath.getValue()).isDirectory()) {
+		if(getModel().svgFilesPath().getValue().isBlank()
+				|| !new File(getModel().svgFilesPath().getValue()).isDirectory()) {
 			showDialogForEmptyWorkingPath();
 			return;
 		}

@@ -68,11 +68,11 @@ public class ProgressDialogController extends BaseController<ProgressDialogModel
 	 */
 	@Override
 	protected void bind(ProgressDialogModel model) {
-		pgb_progress.progressProperty().bind(model.progress);
-		lbl_status.textProperty().bind(model.status);
+		pgb_progress.progressProperty().bind(model.progress());
+		lbl_status.textProperty().bind(model.status());
 		
-		model.progress.addListener((obs, oldVal, newVal) -> {
-			model.status.set(statusFromProgress(newVal.doubleValue()));
+		model.progress().addListener((obs, oldVal, newVal) -> {
+			model.status().set(statusFromProgress(newVal.doubleValue()));
 		});
 	}
 	
@@ -81,8 +81,8 @@ public class ProgressDialogController extends BaseController<ProgressDialogModel
 	 * @param progress new progress value to set
 	 */
 	public void setProgress(double progress) {
-		if(progress > getModel().progress.get()) {
-			getModel().progress.set(progress);
+		if(progress > getModel().progress().get()) {
+			getModel().progress().set(progress);
 		}
 	}
 	

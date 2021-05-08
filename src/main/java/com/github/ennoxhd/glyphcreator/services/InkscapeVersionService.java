@@ -77,7 +77,7 @@ public class InkscapeVersionService {
 	 * @param onResult action to perform on success or failure
 	 */
 	public static void checkVersion(GlyphCreatorModel model, Consumer<Boolean> onResult) {
-		String path = model.inkscapePath.get();
+		String path = model.inkscapePath().get();
 		BasicService<Boolean> versionLookup = new BasicService<>(task -> {
 			boolean isCompatible = analyzeVersionForCompatibility(getVersion(path));
 			task.updateProgress(1, 1);
@@ -86,17 +86,17 @@ public class InkscapeVersionService {
 		});
 		versionLookup.setOnSucceeded(e -> {
 			boolean serviceResult = versionLookup.getValue();
-			model.inkscapePathCache.invalidate();
+			model.inkscapePathCache().invalidate();
 			if(serviceResult) {
-				model.inkscapePathCache.setData(path);
+				model.inkscapePathCache().setData(path);
 			} else {
-				model.inkscapePathCache.setData(null);
+				model.inkscapePathCache().setData(null);
 			}
 			onResult.accept(serviceResult);
 		});
 		versionLookup.setOnFailed(e -> {
-			model.inkscapePathCache.invalidate();
-			model.inkscapePathCache.setData(null);
+			model.inkscapePathCache().invalidate();
+			model.inkscapePathCache().setData(null);
 			onResult.accept(false);
 		});
 		versionLookup.start();

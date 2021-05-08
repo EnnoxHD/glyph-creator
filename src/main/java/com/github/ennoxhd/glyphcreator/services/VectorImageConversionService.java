@@ -65,8 +65,8 @@ public class VectorImageConversionService {
 	 */
 	public static void convertAll(GlyphCreatorModel model, ProgressDialogController controller,
 			Consumer<List<Path>> onResult) {
-		final String inkscape = model.inkscapePathCache.getData();
-		final String dir = model.svgFilesPath.get();
+		final String inkscape = model.inkscapePathCache().getData();
+		final String dir = model.svgFilesPath().get();
 		BasicService<List<Path>> conversionService = new BasicService<>(task -> {
 			try {
 				final List<Path> files = getSvgFiles(dir);
