@@ -1,6 +1,5 @@
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/EnnoxHD/glyph-creator?include_prereleases&label=version&sort=semver)](https://github.com/ennoxhd/glyph-creator/tags)
 [![Requirements](https://img.shields.io/badge/requires-Inkscape%201.0%2B-blue)](https://inkscape.org/release/)
-[![Platform](https://img.shields.io/badge/platform-win%20%7C%20lin%20%7C%20mac-lightgrey)](https://en.wikipedia.org/wiki/OpenJDK)
 [![Code](https://img.shields.io/badge/code-Java%2016-orange)](https://jdk.java.net/16/)
 [![Build Tool](https://img.shields.io/badge/build%20tool-Gradle%207.0-yellow)](https://gradle.org/releases/)
 [![GitHub](https://img.shields.io/github/license/ennoxhd/glyph-creator)](https://opensource.org/licenses/MIT)
