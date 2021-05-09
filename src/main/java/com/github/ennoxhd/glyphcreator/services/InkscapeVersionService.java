@@ -30,9 +30,8 @@ public class InkscapeVersionService {
 	 * Regex pattern for the Inkscape version number as given
 	 * by {@code inkscape --version}
 	 */
-	private static final String VERSION_PATTERN = "^\\w+ "
-			+ "(?<" + MAJOR + ">\\d+).(?<" + MINOR + ">\\d+)(.\\d+)? "
-			+ "\\([0-9a-fA-F]+, \\d{4}-\\d{2}-\\d{2}\\)$";
+	private static final String VERSION_PATTERN = "^Inkscape "
+			+ "(?<" + MAJOR + ">\\d+)\\.(?<" + MINOR + ">\\d+).*$";
 
 	/**
 	 * Invokes an Inkscape process with {@code --version} parameter to get the version.
