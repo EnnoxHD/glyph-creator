@@ -41,7 +41,6 @@ public class VectorImageConversionService {
 			Process process = processBuilder.start();
 			process.waitFor();
 		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
 			return file;
 		}
 		return null;

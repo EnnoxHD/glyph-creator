@@ -33,9 +33,9 @@ public final class ReflectionUtils {
 	public static final Object newInstance(final Class<?> clazz) {
 		try {
 			return clazz.getDeclaredConstructor().newInstance();
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e) {
-			throw new Error("Can't create instance.", e);
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			throw new RuntimeException(e);
 		}
 	}
 }

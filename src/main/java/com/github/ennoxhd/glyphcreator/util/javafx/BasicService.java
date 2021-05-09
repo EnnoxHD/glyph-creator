@@ -39,7 +39,7 @@ public class BasicService<V> extends Service<V> {
 	public BasicService(Function<BasicTask<V>, V> work) {
 		setTask(new BasicTask<V>() {
 			@Override
-			protected V call() throws Exception {
+			protected V call() {
 				return work.apply(this);
 			}
 		});

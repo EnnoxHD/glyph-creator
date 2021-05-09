@@ -112,7 +112,7 @@ public class ProcessStarter {
 		try {
 			stage = loader.<Stage>load();
 		} catch (IOException e) {
-			throw new Error("File could not be loaded.", e);
+			throw new RuntimeException(e);
 		}
 		controllerInstance.setStage(stage);
 		if(getIcon().isPresent()) stage.getIcons().add(getIcon().get());

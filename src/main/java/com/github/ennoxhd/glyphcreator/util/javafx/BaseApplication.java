@@ -104,7 +104,7 @@ public abstract class BaseApplication extends Application {
 	 * @param stage created main Stage, not used
 	 */
 	@Override
-	public void start(Stage stage) throws Exception {
+	public void start(Stage stage) {
 		getProcessStarter().start(getFirstController());
 	}
 }

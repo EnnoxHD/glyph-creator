@@ -49,9 +49,8 @@ public class InkscapeVersionService {
 			p.waitFor();
 			return new String(bis.readAllBytes()).trim();
 		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
+			return null;
 		}
-		return null;
 	}
 	
 	/**

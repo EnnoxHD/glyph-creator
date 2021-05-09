@@ -1,6 +1,5 @@
 package com.github.ennoxhd.glyphcreator.util.io;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -44,11 +43,7 @@ public class SingleValueCache<T> implements Cache<T> {
 	@Override
 	public T getData() throws IllegalStateException {
 		if(!isValid()) throw new IllegalStateException("data was not valid at the time of calling");
-		try {
-			return data.get();
-		} catch(NoSuchElementException e) {
-			return null;
-		}
+		return data.orElseGet(() -> null);
 	}
 
 	@Override

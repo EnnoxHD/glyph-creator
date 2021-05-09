@@ -21,11 +21,7 @@ public class ResourceUtils {
 	 * otherwise an {@link Optional#empty()} object
 	 */
 	public static Optional<Image> loadImage(Class<?> clazz, String image) {
-		try {
-			return Optional.of(new Image(clazz.getResourceAsStream(image)));
-		} catch(Exception e) {
-			return Optional.empty();
-		}
+		return Optional.of(new Image(clazz.getResourceAsStream(image)));
 	}
 	
 	/**
@@ -35,10 +31,6 @@ public class ResourceUtils {
 	 */
 	public static URL getFxmlUrl(Class<? extends BaseController<? extends BaseModel>> controller) {
 		final String className = controller.getSimpleName();
-		try {
-			return controller.getResource(className.substring(0, className.indexOf("Controller")) + ".fxml");
-		} catch(IndexOutOfBoundsException e) {
-			throw new Error("No matching fxml file found.", e);
-		}
+		return controller.getResource(className.substring(0, className.indexOf("Controller")) + ".fxml");
 	}
 }
